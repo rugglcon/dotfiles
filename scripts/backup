@@ -1,0 +1,148 @@
+#!/bin/bash
+
+# uncomment for debug
+#set -x
+
+# can be added to by editing this file
+SYNC_OPTS="-urpq"
+
+# can be changed with '-e' option
+ERR_FILE="backup_errs.log"
+
+# src location
+SRC=""
+
+# dest location
+DEST=""
+
+if [[ -f "$HOME/.local/shared/common.sh" ]]; then
+	. "$HOME/.local/shared/common.sh"
+else
+	printf "%s\n" "common functions not found. exiting." 1>&2
+	exit 1
+fi
+
+backup() {
+	printf "%s\n" "Running backup..."
+	rsync $SYNC_OPTS "$SRC" "$DEST" 2> $ERR_FILE 
+	if [[ ! "$?" = "0" ]]; then
+		# something went wrong
+		error_trig "Error occurred while backing up. Check messages in $ERR_FILE"
+	fi
+}
+
+make_dir() {
+	while true; do
+		read -p "$DEST doesn't exist, create it? [Y/n] " yn
+		case $yn in
+			[Yy])
+				mkdir -p "$DEST"
+				break
+				;;
+			[Nn])
+				error_trig "Please create destination dir and try again."
+				;;
+			*)
+				printf "%s\n" "Please enter [Yy] or [Nn]"
+				;;
+		esac
+	done
+}
+
+check_dirs() {
+	DEST="${DEST/#\~/$HOME}"
+	SRC="${SRC/#\~/$HOME}"
+
+	if [[ -e "$SRC" ]]; then
+		if [[ ! -e "$DEST" ]]; then
+			make_dir "$DEST"
+		fi
+	else
+		error_trig "backup: cannot stat '$SRC': No such file or directory"
+	fi
+}
+
+do_backup_with_args() {	
+	check_dirs
+	backup
+}
+
+do_backup_wo_args() {
+	printf "\n%s\n\n" "No dirs provided; entering interactive mode..."
+	read -e -p 'Source: ' SRC
+	read -e -p 'Destination: ' DEST
+
+	check_dirs
+	backup
+}
+
+cleanup() {
+	if [[ -s $ERR_FILE ]]; then
+		# something went wrong, somehow we got here and 
+		# no error was triggered, tell user there was an
+		# error
+		error_trig "Unknown error occurred. Check messages in $ERR_FILE"
+	elif [[ -f $ERR_FILE ]]; then
+		rm $ERR_FILE
+	fi
+}
+
+usage() {
+	printf "%s\n" "Usage: backup [OPTIONS]"
+	printf "%s\n" "Examples:         backup -e err_file.txt -v"
+	printf "%s\n" "                  backup"
+	printf "%s\n" "Options:"
+	printf "%s\n" "-s, --src /src/dir            Source directory."
+	printf "%s\n" "-d, --dest /dest/dir          Destination directory."
+	printf "%s\n" "-h, --help                    Print this help."
+	printf "%s\n" "-e, --err_file err_file.txt   Output errors to the provided file."
+	printf "%s\n" "-v, --verbose                 Turns on verbose logging."
+}
+
+get_args() {
+	if [[ $# -eq 0 ]]; then
+		do_backup_wo_args
+	else
+		while [[ "$1" != "" ]]; do
+			case "$1" in
+				-h | --help)
+					usage
+					exit
+					;;
+				-e | --err_file)
+					shift
+					ERR_FILE="$1"
+					;;
+				-v | --verbose)
+					SYNC_OPTS=$(echo "$SYNC_OPTS" | sed -r 's/q/v/g')
+					;;
+				-s | --src)
+					shift
+					SRC="$1"
+					;;
+				-d | --dest)
+					shift
+					DEST="$1"
+					;;
+			esac
+			shift
+		done
+	fi
+}
+
+main() {
+	get_args "$@"
+
+	if [[ "$SRC" = "" || "$DEST" = "" ]]; then
+		do_backup_wo_args
+	else
+		do_backup_with_args
+	fi
+
+	# cleanup
+	cleanup
+
+	printf "\n%s\n" "done."
+}
+
+main "$@"

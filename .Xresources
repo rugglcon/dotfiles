@@ -1,0 +1,18 @@
+#include "/home/connor/.cache/wal/colors.Xresources"
+
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+!URxvt*transparent: true
+!URxvt*shading: 20
+URxvt*urgentOnBell: true
+
+!URxvt.letterSpace: -1
+URxvt.font: xft:Liberation Mono:size=8
+URxvt.scrollBar: false
+
+URxvt.perl-ext-common: vtwheel
+
+rofi.width: 40
+rofi.lines: 5

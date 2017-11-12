@@ -1,0 +1,135 @@
+#!/bin/bash
+
+FILES=""
+INFILE=""
+OUTFILE=""
+L_SET=0
+
+if [[ -f "$HOME/.local/shared/common.sh" ]]; then
+	. "$HOME/.local/shared/common.sh"
+else
+	printf "%s\n" "common functions not found. exiting." 1>&2
+	exit 1
+fi
+
+cleanup() {
+	rm -rf .pdfs
+}
+
+trap cleanup EXIT
+
+usage() {
+	printf "%s\n" "Usage: combine_pdf OPTION"
+
+	printf "%s\n" "Only one option may be provided."
+	printf "\n%s\n" "Examples: combine_pdf -f filename.txt"
+	printf "%s\n" "          combine_pdf -l"
+	printf "%s\n" "Options:"
+	printf "%s\n" "-f filename    File to read filenames from. Formatted with"
+	printf "%s\n" "               one filename per line, the last line being"
+	printf "%s\n"	"               the output file."
+	printf "%s\n" "-l             Loop until 'q' is entered, each loop providing"
+	printf "%s\n" "               a single file name then hitting 'Enter'."
+	printf "%s\n" "-h             Print this help."
+	exit 1
+}
+
+expand_path() {
+	expanded="${1/#\~/$HOME}"
+}
+
+convert_to_pdf() {
+	expand_path $1
+	file_check $expanded
+
+	if cupsfilter $expanded > ".pdfs/$(basename $1).pdf" ; then
+		FILES="$FILES .pdfs/$(basename $1).pdf"
+	else
+		error_trig "Something went wrong converting to pdf."
+	fi
+}
+
+loop_list() {
+	mkdir -p .pdfs
+
+	while true; do
+		read -e -p "Enter file name, q to enter outfile: " name
+		case $name in
+			[Qq])
+				read -p "Enter outfile name: " OUTFILE
+				break
+				;;
+			*)
+				convert_to_pdf $name
+				;;
+		esac
+	done
+}
+
+file_list() {
+	mkdir -p .pdfs
+
+	file_check $INFILE
+	file_contents="$(head -n -1 $INFILE)"
+
+	for line in $file_contents; do
+		convert_to_pdf $line
+	done
+
+	OUTFILE="$(tail -n 1 $INFILE)"
+}
+
+do_gs() {
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile=$OUTFILE $FILES
+}
+
+get_args() {
+	f_set=0
+	while getopts ":f:hl" opt; do
+		case $opt in
+			f)
+				if [[ $f_set -eq 0 && $L_SET -eq 0 ]]; then
+					f_set=1
+					INFILE=$OPTARG
+					printf "%s\n" "checking file: $INFILE"
+				else
+					error_trig "Only one of '-f' OR '-l' may be provided. Run with '-h' for help"
+				fi
+				;;
+			l)
+				if [[ $L_SET -eq 0 && $f_set -eq 0 ]]; then
+					L_SET=1
+				else
+					error_trig "Only one of '-f' OR '-l' may be provided. Run with '-h' for help"
+				fi
+				;;
+			h)
+				usage
+				;;
+			\?)
+				error_trig "Invalid option: $OPTARG. Run with '-h' for help"
+				;;
+			:)
+				error_trig "$OPTARG must be run with a filename. Run with '-h' for help"
+				;;
+		esac
+	done
+}
+
+main() {
+	get_args "$@"
+
+	if [[ $L_SET -eq 1 ]]; then
+		loop_list
+	elif [[ $INFILE != "" ]]; then
+		file_list
+	else
+		error_trig "option not set somehow, run with '-h' for help"
+	fi
+	
+	do_gs
+	cleanup
+	printf "\n%s\n" "File written to $OUTFILE"
+}
+
+main "$@"

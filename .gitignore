@@ -1,0 +1,6 @@
+*.un~
+*.swp
+tags
+.vim/undo
+.vim/plugged
+.netrwhist

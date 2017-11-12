@@ -12,7 +12,8 @@ Wifi() {
 	wifi=$(nmcli device wifi | grep -e '^\*' | awk '{getline; print}')
 	name=$(echo "$wifi" | awk '{print $2}')
 	bars=$(echo "$wifi" | awk '{print $8}')
-	ip=$(hostname -I)
+	ip=$(hostname -I | cut -d ' ' -f 1-2)
+
 	echo "$name  $bars  $ip"
 }
 

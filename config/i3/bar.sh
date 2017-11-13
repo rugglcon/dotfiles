@@ -48,12 +48,16 @@ Window() {
 }
 
 Song() {
-	song=$(playerctl metadata xesam:title)
-	artist=$(playerctl metadata xesam:artist)
-	echo "$song - $artist"
+	status=$(playerctl status)
+	if [[ $status == "Playing" ]]; then
+		symbol=""
+		song=$(playerctl metadata xesam:title)
+		artist=$(playerctl metadata xesam:artist)
+		echo "$symbol  $song - $artist  |  "
+	fi
 }
 
 while true; do
-	echo "|  $(Window)  |  $(Song)  |  $(Clock)  |  $(Wifi)  |  $(Battery)"
+	echo "|  $(Window)  |  $(Clock)  |  $(Song)$(Wifi)  |  $(Battery)"
 	sleep 1
 done

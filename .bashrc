@@ -180,7 +180,7 @@ for jar in $all_jars; do
 	hibernate="$hibernate:$temp_path/$jar"
 done
 export CLASSPATH=".:/usr/local/lib/antlr-4.5.3-complete.jar$hibernate"
-export EDITOR=code
+export EDITOR=vim
 #export TERM=xterm-256color
 
 #solarized color palette for terminal:

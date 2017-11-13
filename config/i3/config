@@ -110,6 +110,8 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+gaps inner 5
+gaps outer 5
 
 set $ws1 "1: "
 set $ws2 "2: "
@@ -192,16 +194,17 @@ set_from_resource $alt-fg i3wm.color15
 # finds out, if available)
 # top bar for everything else
 bar {
-				position top
-				status_command /home/connor/.config/i3/bar.sh
-				tray_output none
-				colors {
-					background $alt-bg
-					#                  border     background text
-					focused_workspace  $bg    $bg    $alt-fg
-					inactive_workspace $alt-bg    $alt-bg    $alt-fg
-					urgent_workspace   $urgent    $urgent    $alt-fg
-				}
+	position top
+	status_command /home/connor/.config/i3/bar.sh
+	tray_output none
+	height 23
+	colors {
+		background $alt-bg
+		#                  border     background text
+		focused_workspace  $bg    $bg    $alt-fg
+		inactive_workspace $alt-bg    $alt-bg    $alt-fg
+		urgent_workspace   $urgent    $urgent    $alt-fg
+	}
 }
 
 # bottom bar for workspaces
@@ -246,8 +249,6 @@ bindsym XF86AudioRaiseVolume exec $volumepath/volume -i $volumestep -n -t $statu
 bindsym XF86AudioLowerVolume exec $volumepath/volume -d $volumestep -n -t $statuscmd -u $statussig
 bindsym XF86AudioMute exec $volumepath/volume -m -n -t $statuscmd -u $statussig
 
-exec spotify
-exec_always feh --bg-fill /home/connor/Pictures/leaves.jpg
-exec_always wal -i /home/connor/Pictures/leaves.jpg
-exec_always redshift
+exec_always /home/connor/.config/i3/wallpaper
+exec_always redshift-gtk
 exec_always compton -f

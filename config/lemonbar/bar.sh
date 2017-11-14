@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/.cache/wal/colors.sh
+#. ~/.cache/wal/colors.sh
 
 Clock() {
 	DATETIME=$(date "+%a %b %d, %T")
@@ -24,7 +24,7 @@ Battery() {
 		d=$(echo $d | sed 's/\%//')
 		total=$((d + total))
 	done
-	total="$((total / 2))"
+	total="$((total / 4))"
 
 	symbol=""
 	if [[ $total -gt 74 ]]; then
@@ -43,12 +43,12 @@ Battery() {
 }
 
 Window() {
-	cur_win=$(xdotool getactivewindow getwindowname)
+	cur_win="$(xdotool getactivewindow getwindowname)"
 	echo "$cur_win"
 }
 
 Song() {
-	status=$(playerctl status)
+	status="$(playerctl status)"
 	if [[ $status == "Playing" ]]; then
 		symbol=""
 		song=$(playerctl metadata xesam:title)
@@ -57,7 +57,12 @@ Song() {
 	fi
 }
 
+clock_and_wind() {
+	echo "|  $(Window)  |  $(Clock)"
+}
+
 while true; do
-	echo "|  $(Window)  |  $(Clock)  |  $(Song)$(Wifi)  |  $(Battery)"
+	#echo "%{l}$(clock_and_wind)  |  $(Song)$(Wifi)  |  %{r}$(Battery)"
+	echo "%{l}$(Clock)  |  $(Window)  |  $(Song)$(Wifi)  |  %{r}$(Battery)"
 	sleep 1
 done

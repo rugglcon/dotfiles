@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. "$HOME/.cache/wal/colors.sh"
+
 icon="$HOME/Pictures/bwlogo.png"
 tmpbg='/tmp/screen.png'
 
@@ -7,5 +9,15 @@ tmpbg='/tmp/screen.png'
 
 scrot "$tmpbg"
 convert "$tmpbg" -scale 10% -scale 1000% "$tmpbg"
-convert "$tmpbg" "$icon" -gravity center -composite -matte "$tmpbg"
-i3lock -i "$tmpbg"
+#convert "$tmpbg" "$icon" -gravity center -composite -matte "$tmpbg"
+
+addstr="FF"
+insvcol="$color1$addstr"
+inswcol="$color2$addstr"
+inscol="$color0$addstr"
+ringvcol="$color7$addstr"
+ringwcol="$color8$addstr"
+ringcol="$color4$addstr"
+keycol="$color2$addstr"
+
+i3lock -i "$tmpbg" --insidevercolor=$insvcol --insidewrongcolor=$inswcol --insidecolor=$inscol --ringvercolor=$ringvcol --ringwrongcolor=$ringwcol --keyhlcolor=$keycol --ringcolor=$ringcol

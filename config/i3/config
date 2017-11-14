@@ -51,7 +51,7 @@ bindsym $mod+Return exec urxvt
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+Shift+w exec wal -q -i /home/connor/Pictures/wallpapers/winter
+bindsym $mod+Shift+w exec wal -q -i /home/connor/dotfiles/wallpapers/winter
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec /home/connor/bin/dmenu.sh

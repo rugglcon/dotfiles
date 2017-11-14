@@ -16,3 +16,4 @@ Since I've moved to use i3, there's quite a few new dependencies that weren't he
 * `light` (https://github.com/haikarainen/light)
 * `Font Awesome` (https://github.com/FortAwesome/FontAwesome)
 * `playerctl`
+* `gxmessage`

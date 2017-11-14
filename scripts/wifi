@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Takes argument as connection to connect to, and optional password.
+# Nothing happens if password is left blank if the connection doesn't 
+# require one.
+
+nmcli dev wifi connect $1 $2

@@ -14,6 +14,8 @@ Since I've moved to use i3, there's quite a few new dependencies that weren't he
 * `pywal` (https://github.com/dylanaraps/pywal)
 * `i3-volume` (https://github.com/hastinbe/i3-volume)
 * `light` (https://github.com/haikarainen/light)
-* `Font Awesome` (https://github.com/FortAwesome/FontAwesome)
+* `Font Awesome` (https://github.com/FortAwesome/Font-Awesome)
 * `playerctl`
 * `gxmessage`
+* `acpi`
+* `rofi`

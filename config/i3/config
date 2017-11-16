@@ -102,7 +102,7 @@ bindsym $mod+w layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-new_window pixel 2
+new_window pixel 3
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -113,7 +113,7 @@ bindsym $mod+space focus mode_toggle
 # focus the child container
 #bindsym $mod+d focus child
 gaps inner 5
-gaps outer 5
+gaps outer 3
 
 set $ws1 "1: "
 set $ws2 "2: "

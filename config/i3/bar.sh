@@ -12,9 +12,9 @@ Wifi() {
 	wifi=$(nmcli device wifi | grep -e '^\*' | awk '{getline; print}')
 	name=$(echo "$wifi" | awk '{print $2}')
 	bars=$(echo "$wifi" | awk '{print $8}')
-	ip=$(hostname -I | cut -d ' ' -f 1-2)
+	#ip=$(hostname -I | cut -d ' ' -f 1-2)
 
-	echo "$name  $bars  $ip"
+	echo "$name  $bars"
 }
 
 Battery() {
@@ -58,6 +58,6 @@ Song() {
 }
 
 while true; do
-	echo "|  $(Window)  |  $(Clock)  |  $(Song)$(Wifi)  |  $(Battery)"
+	echo "|  $(Window)  |  $(Song)$(Wifi)  |  $(Clock)  |  $(Battery)"
 	sleep 1
 done

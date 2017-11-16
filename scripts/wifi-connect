@@ -4,4 +4,8 @@
 # Nothing happens if password is left blank if the connection doesn't 
 # require one.
 
-nmcli dev wifi connect $1 $2
+if [[ $2 != "" ]]; then
+	pass="password $2"
+fi
+
+nmcli dev wifi connect $1 $pass

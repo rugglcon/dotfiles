@@ -24,7 +24,7 @@ Battery() {
 		d=$(echo $d | sed 's/\%//')
 		total=$((d + total))
 	done
-	total="$((total / 4))"
+	total="$((total / 3))"
 
 	symbol=""
 	if [[ $total -gt 74 ]]; then

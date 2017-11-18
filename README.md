@@ -19,3 +19,9 @@ Since I've moved to use i3, there's quite a few new dependencies that weren't he
 * `gxmessage`
 * `acpi`
 * `rofi`
+
+## Instructions for Arch (for future reference)
+* follow installation guide on the wiki
+* install dependencies listed here
+* run the setup.sh script
+* should be good to go

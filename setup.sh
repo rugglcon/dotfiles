@@ -216,16 +216,19 @@ get_args() {
 }
 
 main() {
+	error_trig "uncomment the functions that should be run for this machine"
+
 	get_args "$@"
 	path_check
 
-	install_scripts
-	install_vim
-	install_configs
-	install_ag
-	install_fzf
-	install_neofetch
-	install_fd
+	# uncomment everything that should be done with this script
+	#install_scripts
+	#install_vim
+	#install_configs
+	#install_ag
+	#install_fzf
+	#install_neofetch
+	#install_fd
 
 	printf "done.\n"
 }

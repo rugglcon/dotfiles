@@ -51,7 +51,8 @@ bindsym $mod+Return exec urxvt
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+Shift+w exec wal -q -i /home/connor/dotfiles/wallpapers/winter
+#bindsym $mod+Shift+w exec wal -q -i /home/connor/dotfiles/wallpapers/winter
+bindsym  $mod+Shift+w exec wpg -m
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec /home/connor/bin/dmenu.sh
@@ -254,3 +255,4 @@ bindsym XF86AudioMute exec $volumepath/volume -m -n -t $statuscmd -u $statussig
 exec_always /home/connor/.config/i3/wallpaper
 exec_always redshift-gtk
 exec_always compton -f
+exec xinput --set-prop 11 "Synaptics Two-Finger Scrolling" 1 1

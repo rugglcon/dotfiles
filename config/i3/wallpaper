@@ -2,4 +2,4 @@
 
 wallpaper=$(cat $HOME/.cache/wal/wal)
 wal -i $wallpaper
-#feh --bg-fill /home/connor/Pictures/leaves.jpg
+feh --bg-fill $wallpaper

@@ -173,13 +173,6 @@ bind -r '\C-s'
 stty -ixon
 
 #custom additions
-all_jars="$(ls $HOME/cur-class/cs363/proj4/HibernateJAR)"
-hibernate=""
-temp_path="/home/connor/cur-class/cs363/proj4/HibernateJAR"
-for jar in $all_jars; do
-	hibernate="$hibernate:$temp_path/$jar"
-done
-export CLASSPATH=".:/usr/local/lib/antlr-4.5.3-complete.jar$hibernate"
 export EDITOR=vim
 #export TERM=xterm-256color
 
@@ -196,5 +189,5 @@ source "$HOME/.cache/wal/colors.sh"
 #gist key:d38a70c5c16ebe362a151330757477cac9db81cc
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 (wal -r &)

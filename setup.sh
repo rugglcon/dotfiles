@@ -118,14 +118,15 @@ install_configs() {
 	cd $HOME/dotfiles
 
 	ln -fs "$(readlink -f .vim)" "$CONFDIR/.vim"
-	ln -fs "$(readlink -f cava)" "$CONFDIR/.config/cava"
+	mkdir -p $CONFDIR/.config
+	#ln -fs "$(readlink -f cava)" "$CONFDIR/.config/cava"
 	ln -fs "$(readlink -f config/i3)" "$CONFDIR/.config/i3"
 	ln -fs "$(readlink -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
 	ln -fs "$(readlink -f .bash_aliases)" "$CONFDIR/.bash_aliases"
-	ln -fs "$(readlink -f .bashrc)" "$CONFDIR/.bashrc"
+	#ln -fs "$(readlink -f .bashrc)" "$CONFDIR/.bashrc"
 	ln -fs "$(readlink -f .profile)" "$CONFDIR/.profile"
 	ln -fs "$(readlink -f .tmux.conf)" "$CONFDIR/.tmux.conf"
-	ln -fs "$(readlink -f .xinitrc)" "$CONFDIR/.xinitrc"
+	#ln -fs "$(readlink -f .xinitrc)" "$CONFDIR/.xinitrc"
 	ln -fs "$(readlink -f .Xresources)" "$CONFDIR/.Xresources"
 	cp -f "$(readlink -f .muttrc)" "$CONFDIR/.muttrc"
 

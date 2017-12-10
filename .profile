@@ -19,4 +19,4 @@ fi
 #xrdb "$HOME/.Xresources"
 
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/connor/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/connor/bin:$PATH"

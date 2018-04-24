@@ -4,7 +4,7 @@ URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true
 URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
-URxvt*transparent: true
+!URxvt*transparent: true
 URxvt*shading: 30
 URxvt*urgentOnBell: true
 

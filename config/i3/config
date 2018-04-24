@@ -46,7 +46,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -56,7 +56,7 @@ bindsym $mod+Shift+w exec wal -q -i /home/connor/dotfiles/wallpapers/winter
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec /home/connor/bin/dmenu.sh
-bindsym $mod+d exec rofi -show run -lines 1 -opacity 80 -font "Font Awesome 10" -font "Open Sans 10" -location 2
+bindsym $mod+d exec rofi -show run -lines 5 -opacity 80 -font "Font Awesome 10" -font "Open Sans 10" -location 2
 bindsym $mod+Shift+d exec rofi -show window -lines 10 -opacity 80 -font "Font Awesome 10" -font "Open Sans 10" -location 2
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -114,18 +114,28 @@ bindsym $mod+space focus mode_toggle
 # focus the child container
 #bindsym $mod+d focus child
 gaps inner 5
-gaps outer 3
+gaps outer 2
 
-set $ws1 "1: "
-set $ws2 "2: "
-set $ws3 "3: "
-set $ws4 "4: "
-set $ws5 "5: "
-set $ws6 "6: "
-set $ws7 "7: "
-set $ws8 "8: "
-set $ws9 "9: "
-set $ws10 "10: "
+#set $ws1 "1: "
+#set $ws2 "2: "
+#set $ws3 "3: "
+#set $ws4 "4: "
+#set $ws5 "5: "
+#set $ws6 "6: "
+#set $ws7 "7: "
+#set $ws8 "8: "
+#set $ws9 "9: "
+#set $ws10 "10: "
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -151,9 +161,6 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-assign [class="Firefox"] $ws2
-assign [class="Code"] $ws3
-assign [class="libreoffice-startcenter"] $ws6
 assign [class="Steam"] $ws9
 assign [class="Spotify"] $ws10
 
@@ -196,19 +203,19 @@ set_from_resource $alt-fg i3wm.color15
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # top bar for everything else
-bar {
-	position top
-	status_command /home/connor/.config/i3/bar.sh
-	tray_output none
-	height 23
-	colors {
-		background $alt-bg
-		#                  border     background text
-		focused_workspace  $bg    $bg    $alt-fg
-		inactive_workspace $alt-bg    $alt-bg    $alt-fg
-		urgent_workspace   $urgent    $urgent    $alt-fg
-	}
-}
+# bar {
+# 	position top
+# 	status_command /home/connor/.config/i3/bar.sh
+# 	tray_output none
+# 	height 23
+# 	colors {
+# 		background $alt-bg
+# 		#                  border     background text
+# 		focused_workspace  $bg    $bg    $alt-fg
+# 		inactive_workspace $alt-bg    $alt-bg    $alt-fg
+# 		urgent_workspace   $urgent    $urgent    $alt-fg
+# 	}
+# }
 
 # bottom bar for workspaces
 #bar {
@@ -245,8 +252,8 @@ set $volumestep 5
 
 # Symbolic name for sink (numeric index not supported) (used with -s $sinkname)
 #   Recommended: comment out this setting and omit the -s option to use default sink
-#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}' 
-#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo 
+#   List sink names: pacmd list-sinks | awk -F "[<>]" '/^\s+name: <.*>/{print $2}'
+#set $sinkname alsa_output.pci-0000_00_1b.0.analog-stereo
 
 bindsym XF86AudioRaiseVolume exec $volumepath/volume -i $volumestep -n -t $statuscmd -u $statussig
 bindsym XF86AudioLowerVolume exec $volumepath/volume -d $volumestep -n -t $statuscmd -u $statussig
@@ -256,3 +263,4 @@ exec_always /home/connor/.config/i3/wallpaper
 exec_always redshift-gtk
 exec_always compton -f
 exec xinput --set-prop 11 "Synaptics Two-Finger Scrolling" 1 1
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh

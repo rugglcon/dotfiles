@@ -190,4 +190,5 @@ source "$HOME/.cache/wal/colors.sh"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-(wal -r &)
+xrdb $HOME/.Xresources
+(cat ~/.cache/wal/sequences)

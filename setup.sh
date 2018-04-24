@@ -121,6 +121,7 @@ install_configs() {
 	mkdir -p $CONFDIR/.config
 	#ln -fs "$(readlink -f cava)" "$CONFDIR/.config/cava"
 	ln -fs "$(readlink -f config/i3)" "$CONFDIR/.config/i3"
+	ln -fs "$(readlink -f config/polybar)" "$CONFDIR/.config/polybar"
 	ln -fs "$(readlink -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
 	ln -fs "$(readlink -f .bash_aliases)" "$CONFDIR/.bash_aliases"
 	#ln -fs "$(readlink -f .bashrc)" "$CONFDIR/.bashrc"
@@ -217,14 +218,15 @@ get_args() {
 }
 
 main() {
-	error_trig "uncomment the functions that should be run for this machine"
+    error_trig "uncomment the functions that should be run for this machine"
 
-	get_args "$@"
-	path_check
+	#get_args "$@"
+	#path_check
 
 	# uncomment everything that should be done with this script
 	#install_scripts
 	#install_vim
+	#install_vim_final
 	#install_configs
 	#install_ag
 	#install_fzf

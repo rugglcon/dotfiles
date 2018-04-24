@@ -1,0 +1,394 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+background          = ${xrdb:color3}
+foreground          = ${xrdb:color15}
+border              = #00000000
+line                = ${xrdb:color15}
+alert               = ${xrdb:color9}
+inactive            = ${xrdb:color0}
+yellow              = ${xrdb:color}
+green               = ${xrdb:color14}
+cyan                = ${xrdb:color13}
+violet              = ${xrdb:color4}
+magenta             = ${xrdb:color5}
+orange              = ${xrdb:color3}
+
+[bar/bar1]
+width               = 100%
+height              = 30
+radius              = 0
+font-0              = "Open Sans:pixelsize=12;2"
+font-1              = "Font Awesome:pixelsize=12;1"
+background          = ${colors.background}
+foreground          = ${colors.foreground}
+border-top-size     = 6
+border-left-size    = 6
+border-right-size   = 6
+border-color        = ${colors.border}
+line-size           = 3
+# padding-top = 2
+padding-left        = 2
+padding-right       = 2
+module-margin       = 1
+modules-left        = volume player-mpris-tail 
+modules-center      = i3 
+modules-right       = wlan date battery battery1 powermenu
+scroll-up           = i3wm-wsnext
+scroll-down = i3wm-wsprev
+tray-position = left
+
+[module/menu-apps]
+type = custom/menu
+
+; If true, <label-toggle> will be to the left of the menu items (default).
+; If false, it will be on the right of all the items.
+expand-right = true
+
+; "menu-LEVEL-N" has the same properties as "label-NAME" with
+; the additional "exec" property
+;
+; Available exec commands:
+;   menu-open-LEVEL
+;   menu-close
+; Other commands will be executed using "/usr/bin/env sh -c $COMMAND"
+
+menu-0-0 = Browsers
+menu-0-0-exec = menu-open-1
+menu-0-1 = Multimedia
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = Firefox
+menu-1-0-exec = firefox &
+menu-1-1 = Chromium
+menu-1-1-exec = chromium &
+
+menu-2-0 = Gimp
+menu-2-0-exec = gimp &
+menu-2-1 = Scrot
+menu-2-1-exec = scrot &
+
+; Available tags:
+;   <label-toggle> (default) - gets replaced with <label-(open|close)>
+;   <menu> (default)
+;format = <label-toggle> <menu>
+
+label-open = Apps
+label-close = x
+
+; Optional item separator
+; Default: none
+label-separator = |
+
+[module/i3]
+type                        = internal/i3
+index-sort                  = true
+enable-click                = true
+enable-scroll               = true
+wrapping-scroll             = false
+reverse-scroll              = true
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
+;ws-icon-0 = ;
+;ws-icon-1 = ;
+;ws-icon-2 = ;
+;ws-icon-3 = ;
+;ws-icon-4 = ;
+;ws-icon-5 = ;
+;ws-icon-6 = ;
+;ws-icon-7 = ;
+;ws-icon-8 = ;
+;ws-icon-9 = ;
+format                      = <label-state> <label-mode>
+;label-mode                  = %mode%
+label-mode-padding = 1
+label-focused               = %icon%
+label-focused-underline     = ${colors.line}
+label-focused-padding       = 4
+label-unfocused             = %icon%
+label-unfocused-padding     = 4
+label-visible               = %icon%
+label-visible-underline     = ${colors.inactive}
+label-visible-padding       = 4
+label-urgent                = %icon%
+label-urgent-foreground     = ${colors.alert}
+label-urgent-underline      = ${colors.alert}
+label-urgent-padding = 4
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 99
+
+format-padding = 2
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full =  <label-full>
+format-full-padding = 2
+# format-full-background = ${colors.active}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+format-charging-padding = 2
+# format-charging-background = ${colors.active}
+format-discharging-padding = 2
+format-discharging-background = ${colors.background}
+
+[module/battery1]
+type = internal/battery
+battery = BAT1
+adapter = AC
+full-at = 99
+
+format-padding = 0
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full =  <label-full>
+format-full-padding = 2
+# format-full-background = ${colors.active}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+format-charging-padding = 2
+# format-charging-background = ${colors.active}
+format-discharging-padding = 2
+format-discharging-background = ${colors.background}
+
+[module/date]
+type = internal/date
+date = %A, %b. %d %H:%M
+time = %H:%M
+interval = 5
+format-font =3
+;format-background = ${colors.yellow}
+format-padding = 1
+format-margin = 1
+
+[module/xwindow]
+type = internal/xwindow
+# format-background = ${colors.active}
+format-foreground = ${colors.foreground}
+format-padding = 2
+label = %title:0:30:...%
+
+[module/pulseaudio]
+type 			    = internal/pulseaudio
+label-volume-underline      = ${colors.line}
+format-volume 		    = <label-volume>
+label-volume 		    = %percentage%%
+ramp-volume-0 		    = |>====|
+ramp-volume-1 		    = |=>===|
+ramp-volume-2 		    = |==>==|
+ramp-volume-3 		    = |===>=|
+ramp-volume-4 = |====>|
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+# label-focused-background = ${colors.active}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+# label-urgent-background = ${colors.active}
+label-urgent-padding = 2
+
+label-empty = %index%
+# label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+[module/xbacklight]
+type = internal/xbacklight
+
+format = <label> <bar>
+label = BL
+
+bar-width = 10
+bar-indicator = |
+bar-indicator-foreground = #ff
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-fill-foreground = #9f78e1
+bar-empty = ─
+bar-empty-font = 2
+# bar-empty-foreground = ${colors.foreground-alt}
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/cpu]
+type 			    = internal/cpu
+# label-underline             = ${colors.line}
+label = %percentage%%
+
+[module/memory]
+type 			    = internal/memory
+label 			    = %gb_used%
+# label-underline = ${colors.line}
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+
+format-connected-padding = 2
+format-connected = <ramp-signal> <label-connected>
+label-connected = %essid%
+# format-connected-background = ${colors.active}
+
+format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+# ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/eth]
+type = internal/network
+; interface = eth1
+interface = enp0s25
+interval = 3.0
+
+format-connected = <label-connected>
+format-connected-padding = 2
+# format-connected-background = ${colors.active}
+label-connected =  %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+;
+
+[module/volume]
+type = internal/volume
+
+format-volume = <ramp-volume> <bar-volume>
+format-volume-padding = 2
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-4 = 
+ramp-volume-5 = 
+ramp-volume-foreground = ${xrdb:color15}
+
+format-muted-prefix = " "
+format-muted-foreground = ${xrdb:color15}
+label-volume = %percentage%
+label-muted = MUTED
+format-muted-padding = 2
+
+bar-volume-width = 10
+# bar-volume-foreground-0 = ${colors.active}
+bar-volume-gradient = false
+bar-volume-indicator = ◉
+bar-volume-indicator-font = 1
+bar-volume-fill = ▬
+bar-volume-fill-font = 2
+bar-volume-empty = ▬
+
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.background}
+
+[module/player-mpris-tail]
+type = custom/script
+exec = ~/.config/polybar/player-mpris-tail.py
+tail = true
+click-left = ~/.config/polybar/player-ctrl.sh previous
+click-right = ~/.config/polybar/player-ctrl.sh next
+click-middle = ~/.config/polybar/player-ctrl.sh play-pause
+
+[module/inbox-imap-python]
+type = custom/script
+exec = ~/.config/polybar/inbox-imap-python.py
+interval = 60
+
+[module/temperature]
+type 			    = internal/temperature
+label-underline             = ${colors.line}
+hwmon-path 		    = /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
+
+
+[module/powermenu]
+type = custom/menu
+format-spacing = 1
+format-background = ${colors.background}
+format-padding = 1
+
+label-open = 
+# label-open-foreground = ${colors.foreground-alt}
+label-close =  cancel
+label-close-foreground = ${colors.foreground}
+label-separator = |
+# label-separator-foreground = ${colors.background}
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = reboot
+
+menu-2-0 = power off
+menu-2-0-exec = poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+format-prefix-font = 2
+
+[global/wm]
+margin-bottom = 0
+
+
+; vim:ft=dosini

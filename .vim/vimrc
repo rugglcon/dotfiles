@@ -46,6 +46,8 @@ Plug 'SirVer/ultisnips'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
+Plug 'vim-erlang/vim-erlang-compiler'
+Plug 'vim-erlang/vim-erlang-runtime'
 call plug#end()
 
 " }}} END PLUGINS

@@ -218,15 +218,15 @@ get_args() {
 }
 
 main() {
-    error_trig "uncomment the functions that should be run for this machine"
+    #error_trig "uncomment the functions that should be run for this machine"
 
 	#get_args "$@"
 	#path_check
 
 	# uncomment everything that should be done with this script
 	#install_scripts
-	#install_vim
-	#install_vim_final
+    install_vim
+    install_vim_final
 	#install_configs
 	#install_ag
 	#install_fzf

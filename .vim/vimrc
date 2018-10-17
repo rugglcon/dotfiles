@@ -191,6 +191,7 @@ augroup fileTypes
 	autocmd FileType vala set expandtab shiftwidth=4 softtabstop=4
 	autocmd FileType python set expandtab shiftwidth=4 softtabstop=4
 	autocmd BufWritePost *.tex AsyncRun pdflatex %
+    autocmd BufWritePost *.md AsyncRun pandoc % -o %:r.pdf
 augroup END
 
 augroup QuickfixStatus

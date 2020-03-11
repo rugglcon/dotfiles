@@ -9,6 +9,11 @@ PATHADD=1
 # default config dir. can be set with -c
 CONFDIR=$HOME
 
+# `readlink` command
+$READLINK="$(which readlink)"
+# get operating system; only useful for Mac or Arch; not reliable for Ubuntu/Fedora/Debian
+uname_v="$(uname -v)"
+
 if [[ -f "$HOME/.local/shared/common.sh" ]]; then
 	. "$HOME/.local/shared/common.sh"
 elif [[ -f "shared/common.sh" ]]; then
@@ -17,6 +22,7 @@ else
 	printf "%s\n" "common functions not found. exiting." 1>&2
 	exit 1
 fi
+
 
 path_check() {
 	if [[ ! ":$PATH:" == *":$BINDIR:"* ]]; then
@@ -53,13 +59,13 @@ install_vim() {
 		read -p "install vim? [Y/n] " yn
 		case $yn in
 			[Yy])
-				echo "$(uname -v)" | grep -q 'Ubuntu'
+				grep -q 'Ubuntu' <<< "$uname_v"
 				if [[ $? -eq 0 ]]; then
 					install_vim_pacs
 					git clone https://github.com/vim/vim.git $HOME/vim
 					install_vim_final
 					apt install python3-pip
-				elif [[ *"Arch"* == "$(uname -v)" ]]; then
+				elif grep -q 'Arch' <<< "$uname_v"; then
 					pacman -S vim
 				elif [[ -f /etc/system-release ]]; then
 					dnf update && dnf upgrade && dnf install vim
@@ -80,7 +86,7 @@ install_vim() {
 install_scripts() {
 	mkdir -p $BINDIR
 
-	if [[ *"Arch"* == "$(uname -v)" ]]; then
+	if grep -q "Arch" <<< "$uname_v"; then
 		if ! hash yaourt 2>/dev/null; then
 			printf "Installing yaourt...\n"
 			pacman -S --needed base-devel git wget yajl
@@ -97,7 +103,7 @@ install_scripts() {
 	fi
 
 	if ! hash wal 2>/dev/null; then
-		if [[ *"Arch"* == "$(uname -v)" ]]; then
+		if grep -q "Arch" <<< "$uname_v"; then
 			yaourt -S python-pywal-git
 		else
 			pip3 install pywal
@@ -117,55 +123,78 @@ install_configs() {
 	printf "%s\n" "linking configs..."
 	cd $HOME/dotfiles
 
-	ln -fs "$(readlink -f .vim)" "$CONFDIR/.vim"
+	ln -fs "$($READLINK -f .vim)" "$CONFDIR/.vim"
 	mkdir -p $CONFDIR/.config
-	#ln -fs "$(readlink -f cava)" "$CONFDIR/.config/cava"
-	ln -fs "$(readlink -f config/i3)" "$CONFDIR/.config/i3"
-	ln -fs "$(readlink -f config/polybar)" "$CONFDIR/.config/polybar"
-	ln -fs "$(readlink -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
-	ln -fs "$(readlink -f .bash_aliases)" "$CONFDIR/.bash_aliases"
-	#ln -fs "$(readlink -f .bashrc)" "$CONFDIR/.bashrc"
-	ln -fs "$(readlink -f .profile)" "$CONFDIR/.profile"
-	ln -fs "$(readlink -f .tmux.conf)" "$CONFDIR/.tmux.conf"
-	#ln -fs "$(readlink -f .xinitrc)" "$CONFDIR/.xinitrc"
-	ln -fs "$(readlink -f .Xresources)" "$CONFDIR/.Xresources"
-	cp -f "$(readlink -f .muttrc)" "$CONFDIR/.muttrc"
+	#ln -fs "$($READLINK -f cava)" "$CONFDIR/.config/cava"
+	ln -fs "$($READLINK -f config/i3)" "$CONFDIR/.config/i3"
+	ln -fs "$($READLINK -f config/polybar)" "$CONFDIR/.config/polybar"
+	ln -fs "$($READLINK -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
+	ln -fs "$($READLINK -f .bash_aliases)" "$CONFDIR/.bash_aliases"
+	#ln -fs "$($READLINK -f .bashrc)" "$CONFDIR/.bashrc"
+	ln -fs "$($READLINK -f .profile)" "$CONFDIR/.profile"
+	ln -fs "$($READLINK -f .tmux.conf)" "$CONFDIR/.tmux.conf"
+	#ln -fs "$($READLINK -f .xinitrc)" "$CONFDIR/.xinitrc"
+	ln -fs "$($READLINK -f .Xresources)" "$CONFDIR/.Xresources"
+	cp -f "$($READLINK -f .muttrc)" "$CONFDIR/.muttrc"
+    ln -fs "$($READLINK -f .zshrc)" "$CONFDIR/.zshrc"
 
 	vim +PlugClean +qall
 	vim +PlugInstall +qall
 }
 
 install_fzf() {
-	git clone --depth 1 https://github.com/junegunnn/fzf.git ~/.fzf
+	git clone --depth 1 git@github.com:junegunn/fzf ~/.fzf
 	~/.fzf/install
 }
 
 install_fd() {
-	wget https://github.com/sharkdp/fd/releases/download/v5.0.0/fd-v5.0.0-x86_64-unknown-linux-gnu.tar.gz
-	tar xzf fd-v5.0.0-x86_64-unknown-linux-gnu.tar.gz
-	mv fd-v5.0.0-x86_64-unknown-linux-gnu/fd ~/bin
-	rm -rf fd-v.0.0-x86_64-unknown-linux-gnu*
+    if grep -q "Darwin" <<< "$uname_v"; then
+        brew install fd
+    elif grep -q "Arch" <<< "$uname_v"; then
+        pacman -S fd
+    elif hash apt 2>/dev/null; then
+        # latest version as of 3/10/2020
+        # unfortunately it's only in the repos as of 19.10
+        wget https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
+        dpkg -i fd_7.4.0_amd64.deb
+        rm fd_7.4.0_amd64.deb
+    elif hash dnf 2>/dev/null; then
+        dnf install fd-find
+    fi
 }
 
 install_neofetch() {
-	if [[ *"Arch"* == "$(uname -v)" ]]; then
+	if grep -q "Arch" <<< "$uname_v"; then
 		yaourt -S neofetch-git
 	elif hash apt 2>/dev/null; then
 		apt install neofetch
 	elif hash dnf 2>/dev/null; then
 		dnf copr enable konimex/neofetch
 		dnf install neofetch
+    elif grep -q "Darwin" <<< "$uname_v"; then
+        brew install neofetch
 	fi
 }
 
 install_ag() {
-	if [[ *"Arch"* == "$(uname -v)" ]]; then
+	if grep -q "Arch" <<< "$uname_v"; then
 		pacman -S the_silver_searcher
 	elif hash apt 2>/dev/null; then
 		apt install silversearcher-ag
 	elif hash dnf 2>/dev/null; then
 		dnf install the_silver_searcher
+    elif grep -q "Darwin" <<< "$uname_v"; then
+        brew install the_silver_searcher
 	fi
+}
+
+install_brew() {
+    if ! hash brew 2> /dev/null ; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
+
+    brew install coreutils
+    READLINK="$(which greadlink)"
 }
 
 usage() {
@@ -220,18 +249,23 @@ get_args() {
 main() {
     #error_trig "uncomment the functions that should be run for this machine"
 
-	#get_args "$@"
-	#path_check
+    get_args "$@"
+    path_check
 
 	# uncomment everything that should be done with this script
-	#install_scripts
-    install_vim
-    install_vim_final
-	#install_configs
-	#install_ag
-	#install_fzf
-	#install_neofetch
-	#install_fd
+
+    # if on a mac, need to install some utilities that don't come default
+    if grep -q "Darwin" <<< "$uname_v"; then
+        install_brew
+    fi
+    #install_scripts
+    #install_vim
+    #install_vim_final
+    #install_configs
+    #install_ag
+    # install_fzf
+    #install_neofetch
+    #install_fd
 
 	printf "done.\n"
 }

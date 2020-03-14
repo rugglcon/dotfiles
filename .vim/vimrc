@@ -45,9 +45,6 @@ endif
 Plug 'SirVer/ultisnips'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'
-Plug 'vim-erlang/vim-erlang-compiler'
-Plug 'vim-erlang/vim-erlang-runtime'
 call plug#end()
 
 " }}} END PLUGINS
@@ -57,39 +54,44 @@ call plug#end()
 let g:asyncrun_trim=1
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
-let g:ale_echo_msg_error_str='E'
-let g:ale_echo_msg_warning_str='W'
-let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
-let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang-3.8.so'
-
-if executable('ag')
-	let g:ackprg = 'ag --nogroup'
-endif
 " }}} END PLUGIN SETTINGS
 
 " {{{ COLORSCHEME
 
-source ~/.cache/wal/colors.vim
+source ~/.cache/wal/colors-wal.vim
 colorscheme wal
 hi Normal ctermbg=none
-"if has('gui_running')
+if has('gui_running')
 	"colorscheme solarized
 	"hi User1 guibg=#eee8d5 guifg=#586e75
 	"hi User2 guibg=#073642 guifg=#93a1a1
 	"hi User3 guibg=#073642 guifg=#dc322f
 	"hi User4 guibg=#839496 guifg=#073642
-"endif
+	set guifont=Liberation\ Mono\ 8
+	set guioptions-=m
+	set guioptions-=T
+	set guioptions-=r
+	set guioptions-=L
+endif
 execute 'hi User1 ctermbg=1 ctermfg=0 guibg='.g:color1.' guifg='.g:color0
 execute 'hi User2 ctermbg=0 ctermfg=6 guibg='.g:color0.' guifg='.g:color6
 execute 'hi User3 ctermbg=0 ctermfg=2 guibg='.g:color0.' guifg='.g:color2
 execute 'hi User4 ctermbg=3* ctermfg=0 guibg='.g:color11.' guifg='.g:color0
-
-set guifont=Liberation\ Mono\ 8
-set guioptions-=m
-set guioptions-=T
-set guioptions-=r
-set guioptions-=L
 
 " }}} END COLORSCHEME
 
@@ -109,9 +111,8 @@ set statusline+=%2*
 set statusline+=%=
 set statusline+=%#CursorColumn#
 set statusline+=%2*
-"set statusline+=\ %y
+set statusline+=\ %y
 set statusline+=%3*
-set statusline+=%{LinterStatus()}
 set statusline+=\ %{ObsessionStatus('[!]')}
 set statusline+=\ %4*
 set statusline+=\[Buf:%n
@@ -133,8 +134,13 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>bs :ls<CR>:b
 nnoremap <leader>so :so ~/.vim/vimrc<CR>
 nnoremap <leader>ar :AsyncRun<space>
-nnoremap <silent> <C-k> :ALEPreviousWrap<CR>
-nnoremap <silent> <C-j> :ALENextWrap<CR>
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+if executable('ag')
+    set grepprg=ag\ --nogroup
+endif
+
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " }}} END MAPPINGS
 
@@ -153,23 +159,6 @@ function! Strip(input)
 	return l:branch
 endfunction
 
-function! LinterStatus() abort
-	let l:counts = ale#statusline#Count(bufnr(''))
-
-	let l:all_errors = l:counts.error + l:counts.style_error
-	let l:all_non_errors = l:counts.total - l:all_errors
-
-	if l:counts.total == 0 
-		return ''
-	else
-		return printf(
-						\ '%dW %dE',
-						\ l:all_errors,
-						\ l:all_errors
-						\)
-	endif
-endfunction
-
 " }}} END FUNCTIONS
 
 " {{{ AUGROUPS/AUTOCMDS
@@ -182,7 +171,6 @@ augroup END
 augroup vimrc
 	autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
 augroup END
-
 
 augroup fileTypes
 	autocmd BufNewFile,BufRead *.rs set filetype=rust

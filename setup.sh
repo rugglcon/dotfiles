@@ -10,7 +10,7 @@ PATHADD=1
 CONFDIR=$HOME
 
 # `readlink` command
-$READLINK="$(which readlink)"
+READLINK="$(which readlink)"
 # get operating system; only useful for Mac or Arch; not reliable for Ubuntu/Fedora/Debian
 uname_v="$(uname -v)"
 
@@ -126,16 +126,16 @@ install_configs() {
 	ln -fs "$($READLINK -f .vim)" "$CONFDIR/.vim"
 	mkdir -p $CONFDIR/.config
 	#ln -fs "$($READLINK -f cava)" "$CONFDIR/.config/cava"
-	ln -fs "$($READLINK -f config/i3)" "$CONFDIR/.config/i3"
-	ln -fs "$($READLINK -f config/polybar)" "$CONFDIR/.config/polybar"
-	ln -fs "$($READLINK -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
+	#ln -fs "$($READLINK -f config/i3)" "$CONFDIR/.config/i3"
+	#ln -fs "$($READLINK -f config/polybar)" "$CONFDIR/.config/polybar"
+	#ln -fs "$($READLINK -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
 	ln -fs "$($READLINK -f .bash_aliases)" "$CONFDIR/.bash_aliases"
-	#ln -fs "$($READLINK -f .bashrc)" "$CONFDIR/.bashrc"
+	ln -fs "$($READLINK -f .bashrc)" "$CONFDIR/.bashrc"
 	ln -fs "$($READLINK -f .profile)" "$CONFDIR/.profile"
 	ln -fs "$($READLINK -f .tmux.conf)" "$CONFDIR/.tmux.conf"
 	#ln -fs "$($READLINK -f .xinitrc)" "$CONFDIR/.xinitrc"
-	ln -fs "$($READLINK -f .Xresources)" "$CONFDIR/.Xresources"
-	cp -f "$($READLINK -f .muttrc)" "$CONFDIR/.muttrc"
+	#ln -fs "$($READLINK -f .Xresources)" "$CONFDIR/.Xresources"
+	#cp -f "$($READLINK -f .muttrc)" "$CONFDIR/.muttrc"
     ln -fs "$($READLINK -f .zshrc)" "$CONFDIR/.zshrc"
 
 	vim +PlugClean +qall
@@ -156,7 +156,7 @@ install_fd() {
         # latest version as of 3/10/2020
         # unfortunately it's only in the repos as of 19.10
         wget https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
-        dpkg -i fd_7.4.0_amd64.deb
+        sudo dpkg -i fd_7.4.0_amd64.deb
         rm fd_7.4.0_amd64.deb
     elif hash dnf 2>/dev/null; then
         dnf install fd-find
@@ -167,7 +167,7 @@ install_neofetch() {
 	if grep -q "Arch" <<< "$uname_v"; then
 		yaourt -S neofetch-git
 	elif hash apt 2>/dev/null; then
-		apt install neofetch
+		sudo apt install neofetch
 	elif hash dnf 2>/dev/null; then
 		dnf copr enable konimex/neofetch
 		dnf install neofetch
@@ -180,7 +180,7 @@ install_ag() {
 	if grep -q "Arch" <<< "$uname_v"; then
 		pacman -S the_silver_searcher
 	elif hash apt 2>/dev/null; then
-		apt install silversearcher-ag
+		sudo apt install silversearcher-ag
 	elif hash dnf 2>/dev/null; then
 		dnf install the_silver_searcher
     elif grep -q "Darwin" <<< "$uname_v"; then
@@ -261,11 +261,11 @@ main() {
     #install_scripts
     #install_vim
     #install_vim_final
-    #install_configs
-    #install_ag
-    # install_fzf
-    #install_neofetch
-    #install_fd
+    install_configs
+    install_ag
+    install_fzf
+    install_neofetch
+    install_fd
 
 	printf "done.\n"
 }

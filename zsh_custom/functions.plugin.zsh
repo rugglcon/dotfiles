@@ -1,5 +1,5 @@
 chkalias() {
-    alias | ag "$1"
+    alias | fzf
 }
 
 _fzf_compgen_path() {

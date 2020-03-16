@@ -10,9 +10,9 @@ set title
 set mouse=a
 set ruler
 set smarttab
-set tabstop=4       " The width of a TAB is set to 2.
-set shiftwidth=4    " Indents will have a width of 2
-set softtabstop=4   " Sets the number of columns for a TAB
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set autoindent
 set smartindent
 set expandtab
@@ -30,7 +30,6 @@ Plug 'dylanaraps/wal.vim'
 Plug 'cespare/vim-toml'
 Plug 'scrooloose/nerdcommenter'
 Plug 'othree/html5.vim'
-Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -38,12 +37,10 @@ Plug 'tpope/vim-eunuch'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-obsession'
 Plug 'tmux-plugins/vim-tmux'
-if has('nvim')
-	Plug 'roxma/clang_complete'
-	Plug 'roxma/nvim-completion-manager'
-endif
-Plug 'SirVer/ultisnips'
-Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+Plug 'skywind3000/asyncrun.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
@@ -104,7 +101,7 @@ set statusline+=%1*
 set statusline+=%{Strip(fugitive#statusline())}
 set statusline+=%2*
 set statusline+=\ %t
-set statusline+=%m\ 
+set statusline+=%m\
 set statusline+=%3*
 set statusline+=%r
 set statusline+=%2*

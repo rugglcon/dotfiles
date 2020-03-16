@@ -129,14 +129,22 @@ install_configs() {
 	#ln -fs "$($READLINK -f config/i3)" "$CONFDIR/.config/i3"
 	#ln -fs "$($READLINK -f config/polybar)" "$CONFDIR/.config/polybar"
 	#ln -fs "$($READLINK -f config/lemonbar)" "$CONFDIR/.config/lemonbar"
-	ln -fs "$($READLINK -f .bash_aliases)" "$CONFDIR/.bash_aliases"
-	ln -fs "$($READLINK -f .bashrc)" "$CONFDIR/.bashrc"
-	ln -fs "$($READLINK -f .profile)" "$CONFDIR/.profile"
+	# ln -fs "$($READLINK -f .bash_aliases)" "$CONFDIR/.bash_aliases"
+	# ln -fs "$($READLINK -f .bashrc)" "$CONFDIR/.bashrc"
+	# ln -fs "$($READLINK -f .profile)" "$CONFDIR/.profile"
 	ln -fs "$($READLINK -f .tmux.conf)" "$CONFDIR/.tmux.conf"
 	#ln -fs "$($READLINK -f .xinitrc)" "$CONFDIR/.xinitrc"
 	#ln -fs "$($READLINK -f .Xresources)" "$CONFDIR/.Xresources"
 	#cp -f "$($READLINK -f .muttrc)" "$CONFDIR/.muttrc"
-    ln -fs "$($READLINK -f .zshrc)" "$CONFDIR/.zshrc"
+    # ln -fs "$($READLINK -f .zshrc)" "$CONFDIR/.zshrc"
+
+	# have to do something different for alacritty
+	mkdir -p "$CONFDIR/.config/alacritty"
+	if grep -q "Darwin" <<< "$uname_v"; then
+		ln -fs "$($READLINK -f config/alacritty/alacritty-mac.yml)" "$CONFDIR/.config/alacritty/alacritty.yml"
+	else
+		ln -fs "$($READLINK -f config/alacritty/alacritty.yml)" "$CONFDIR/.config/alacritty/alacritty.yml"
+	fi
 
 	vim +PlugClean +qall
 	vim +PlugInstall +qall
@@ -262,10 +270,10 @@ main() {
     #install_vim
     #install_vim_final
     install_configs
-    install_ag
-    install_fzf
-    install_neofetch
-    install_fd
+    # install_ag
+    # install_fzf
+    # install_neofetch
+    # install_fd
 
 	printf "done.\n"
 }

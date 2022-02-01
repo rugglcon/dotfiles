@@ -1,6 +1,6 @@
 alias tmux='tmux -2'
 alias grun='java org.antlr.v4.gui.TestRig'
-alias wal='wal -t -o set_bg.py'
+alias wal='wal -o set_bg.py'
 alias yt-mfile='youtube-dl -x -a'
 alias yt-vfile='youtube-dl -a'
 alias yt-mplay='youtube-dl -x --yes-playlist'

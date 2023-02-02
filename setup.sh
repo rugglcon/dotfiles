@@ -41,7 +41,7 @@ install_vim_pacs() {
 install_vim_final() {
 	cd $HOME/vim
 	./configure --with-features=huge --enable-multibyte --enable-rubyinterp=yes --enable-pythoninterp=yes --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu --enable-perlinterp=yes --enable-luainterp=yes --enable-gui=gtk2 --enable-cscope --enable-terminal --prefix=/usr
-	make VIMRUNTIMEDIR=/usr/share/vim/vim80
+	make VIMRUNTIMEDIR=/usr/share/vim/vim81
 	make install
 
 	make_editor

@@ -192,4 +192,11 @@ source "$HOME/.cache/wal/colors.sh"
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH:$GOPATH/bin"
 export GOPATH="$HOME/dev/go_workspace/"
 xrdb $HOME/.Xresources
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
 (cat ~/.cache/wal/sequences)
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/connor/.sdkman"
+[[ -s "/home/connor/.sdkman/bin/sdkman-init.sh" ]] && source "/home/connor/.sdkman/bin/sdkman-init.sh"

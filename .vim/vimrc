@@ -10,9 +10,9 @@ set title
 set mouse=a
 set ruler
 set smarttab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=4       " The width of a TAB is set to 4.
+set shiftwidth=4    " Indents will have a width of 4
+set softtabstop=4   " Sets the number of columns for a TAB
 set autoindent
 set smartindent
 set expandtab
@@ -30,6 +30,8 @@ Plug 'dylanaraps/wal.vim'
 Plug 'cespare/vim-toml'
 Plug 'scrooloose/nerdcommenter'
 Plug 'othree/html5.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'w0rp/ale'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -42,6 +44,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
 call plug#end()
 
 " }}} END PLUGINS
@@ -51,6 +54,17 @@ call plug#end()
 let g:asyncrun_trim=1
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
+let g:ale_echo_msg_error_str='E'
+let g:ale_echo_msg_warning_str='W'
+let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
+let g:ale_linters = {'typescript': ['tslint']}
+let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_fixers = {
+\    'typescript': [
+\        'tslint'
+\    ]
+\}
+let g:ale_typescript_tslint_executable = 'tslint'
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],

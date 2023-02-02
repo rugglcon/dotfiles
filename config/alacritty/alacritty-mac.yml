@@ -13,6 +13,8 @@
   #TERM: xterm-256color
 
 window:
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
   # Window dimensions (changes require restart)
   #
   # Specified in number of columns/lines, not pixels.
@@ -84,7 +86,6 @@ scrolling:
 # Some applications, like Emacs, rely on knowing about the width of a tab.
 # To prevent unexpected behavior in these applications, it's also required to
 # change the `it` value in terminfo when altering this setting.
-tabspaces: 8
 
 # Font configuration (changes require restart)
 font:
@@ -257,10 +258,10 @@ draw_bold_text_with_bright_colors: true
 #   - Linear
 #
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
-  animation: EaseOutExpo
-  duration: 0
-  color: '0xffffff'
+#visual_bell:
+  #animation: EaseOutExpo
+  #duration: 0
+  #color: '0xffffff'
 
 # Background opacity
 #
@@ -326,8 +327,6 @@ selection:
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: false
 
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
 
 cursor:
   # Cursor style
@@ -501,10 +500,10 @@ key_bindings:
   #- { key: C,        mods: Control|Shift, action: Copy             }
   #- { key: Insert,   mods: Shift,         action: PasteSelection   }
   #- { key: Key0,     mods: Control,       action: ResetFontSize    }
-  #- { key: Equals,   mods: Control,       action: IncreaseFontSize }
-  #- { key: Add,      mods: Control,       action: IncreaseFontSize }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  #- { key: Plus,      mods: Control,       action: IncreaseFontSize }
   #- { key: Subtract, mods: Control,       action: DecreaseFontSize }
-  #- { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
   # (macOS only)
@@ -631,28 +630,28 @@ key_bindings:
 # BEGIN ACE
 colors:
   primary:
-    background: '0x18181b'
-    foreground: '0xe3e3e8'
+    background: '0x1b1c1e'
+    foreground: '0xcadcef'
   cursor:
-    text:       '0x18181b'
-    cursor:     '0xe3e3e8'
+    text:       '0x1b1c1e'
+    cursor:     '0xcadcef'
   normal:
-    black:      '0x18181b'
-    red:        '0x99A6BA'
-    green:      '0xC9B2AB'
-    yellow:     '0x9EABC0'
-    blue:       '0xAFB6C8'
-    magenta:    '0xBCC2D2'
-    cyan:       '0xCBCBD8'
-    white:      '0xe3e3e8'
+    black:      '0x1b1c1e'
+    red:        '0x6295DE'
+    green:      '0x76AAEE'
+    yellow:     '0x9E9B9C'
+    blue:       '0xC8BDAC'
+    magenta:    '0x97ADCD'
+    cyan:       '0x8AB8F1'
+    white:      '0xcadcef'
   bright:
-    black:      '0x9e9ea2'
-    red:        '0x99A6BA'
-    green:      '0xC9B2AB'
-    yellow:     '0x9EABC0'
-    blue:       '0xAFB6C8'
-    magenta:    '0xBCC2D2'
-    cyan:       '0xCBCBD8'
-    white:      '0xe3e3e8'
+    black:      '0x8d9aa7'
+    red:        '0x6295DE'
+    green:      '0x76AAEE'
+    yellow:     '0x9E9B9C'
+    blue:       '0xC8BDAC'
+    magenta:    '0x97ADCD'
+    cyan:       '0x8AB8F1'
+    white:      '0xcadcef'
 
 # END ACE

@@ -78,10 +78,7 @@ else
 fi
 
 # add python packages to PATH
-export PATH="/Library/Frameworks/Python.framework/Versions/3.8/bin:${HOME}/.local/bin:$PATH"
-
-# set default AWS profile
-export AWS_PROFILE=123273368005/DeveloperSSO/connor.ruggles@corteva.com
+export PATH="/usr/local/opt/tck-tk/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:${HOME}/.local/bin:$PATH"
 
 # make nvm config work
 export NVM_DIR="$HOME/.nvm"
@@ -102,7 +99,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-
 cat ~/.cache/wal/sequences
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
@@ -112,3 +108,8 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+export PATH="$HOME/.poetry/bin:$PATH"
